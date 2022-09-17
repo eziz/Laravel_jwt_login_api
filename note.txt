@@ -1,0 +1,87 @@
+EXAMPLE 
+
+TABLE
+
+1. USERS -[id, name, email, phone_no, password,..]
+2. COURSES-[id, user_id, title, description,  total_videos]
+
+RELATIONSHIP -ONE TO MANY
+
+1 USER CAN ENROL MULTIPLE COURSES
+
+1. USER REGISTER API
+2. USER LOGIN API
+3. USER PROFILE API
+4. USER LOGOUT API
+5. USER COURSE ENREOLLMENT
+6. TOTAL USER COURSES
+7. DELETE COURSE FROM USER
+
+*********************************************************
+
+JWT TOKEN STRUCTURE   -hearder.payload.signature
+
+************************************************************
+
+1. JWT Package Installation
+2. Update app.php
+3. JWT Config Publish
+4. Generate JWT secret
+5. Update auth.php
+
+composer create-project —prefer -dist laravel/laravel blog
+
+INSTALL AND CONFIGURE LARAVEL JWT AUTH
+
+composer require tymon/jwt-auth
+
+php artisan migrate
+
+php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+
+
+php artisan jwt:secret
+
+php artisan make:controller Api/UserController --model=User
+
+php artisan make:controller Api/CourseController --model=Course
+
+config/app.php folder
+
+'providers' => [
+//we added this line newly
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+]
+
+'aliases' => [
+
+'JWTAuth'=> \Tymon\JWTAuth\Facades\JWTAuth::class,
+'JWTFactory'=> \Tymon\JWTAuth\Facades\JWTFactory::class,
+
+]
+
+php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider”
+
+php artisan jwt:secret
+
+'defaults' => [
+        'guard' => 'web',
+        'passwords' => 'users',
+    ],
+
+//me must update api
+
+'defaults' => [
+        'guard' => 'api',
+        'passwords' => 'users',
+    ],
+
+
+php artisan make:migration CreateCoursesTable
+
+php artisan make:model Course
+
+php artisan make:controller Api/UserController --model=User
+
+
+php artisan route:cache

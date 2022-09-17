@@ -1,0 +1,26 @@
+This is all computed based on the activated_date, so you can use accessors like this:
+
+// User Model
+protected $casts = [
+    'activated_date' => 'date',
+];
+public function endDate(): Attribute
+{
+return new Attribute(
+fn () => $this->activated_date ? $this->activated_date->addDays(90) :  null
+);
+}
+
+
+public function activated(): Attribute
+{
+return new Attribute(fn () => (bool) $this->activated_date);
+}
+
+
+public function deactivated(): Attribute
+{
+return new Attribute(fn () => $this->activated_date->eq($this->end_date));
+}
+
+I don't know if the deactivated property makes a lot of sense, you are only deactive when the two dates are equal???
